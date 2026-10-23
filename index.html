@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10131c"><link rel="manifest" href="manifest.json">
+<title>Growth Journey</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0d13;--p:#151925;--p2:#20283a;--t:#f4f6fb;--m:#9ba5b8;--a:#b8f36b;--l:#2a3142}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#202b3e,#0b0d13 50%);color:var(--t);font-family:system-ui,sans-serif;min-height:100vh}.wrap{max-width:700px;margin:auto;padding:22px 16px 40px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{display:flex;gap:11px;align-items:center}.logo{width:42px;height:42px;border-radius:14px;background:var(--a);color:#11170a;display:grid;place-items:center;font-size:22px;font-weight:900}h1{font-size:21px;margin:0}.sub,.muted{font-size:12px;color:var(--m);margin-top:3px}
+button,input{font:inherit}.btn{border:1px solid var(--l);background:var(--p2);color:var(--t);padding:10px 13px;border-radius:12px;cursor:pointer}.primary{background:var(--a);color:#11170a;border-color:var(--a);font-weight:750}
+.hero{background:linear-gradient(135deg,#202a3a,#151925);border:1px solid var(--l);border-radius:22px;padding:21px}.eyebrow{font-size:12px;color:var(--a);font-weight:800;letter-spacing:1.2px;text-transform:uppercase}.hero h2{font-size:29px;line-height:1.15;margin:10px 0}.hero p{color:var(--m);font-size:14px;margin:0 0 18px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#0f131d;border:1px solid var(--l);border-radius:14px;padding:12px}.stat strong{display:block;font-size:22px}.stat span{font-size:11px;color:var(--m)}
+.head{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 12px}.head h3{margin:0;font-size:17px}.progress{background:var(--p);border:1px solid var(--l);border-radius:17px;padding:15px;margin-bottom:12px}.prow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px}.track{height:8px;background:#2b3242;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:var(--a);transition:width .2s}
+.habits{display:grid;gap:10px}.habit{display:flex;align-items:center;gap:12px;padding:14px;background:var(--p);border:1px solid var(--l);border-radius:16px}.check{width:26px;height:26px;flex:0 0 26px;border-radius:9px;border:1.5px solid #586176;background:transparent;color:#11170a;cursor:pointer}.done .check{background:var(--a);border-color:var(--a)}.done .check:after{content:"✓";font-weight:900}.habittext{flex:1}.habittext strong{display:block;font-size:14px}.habittext small{display:block;color:var(--m);font-size:12px;margin-top:3px}.done .habittext strong{text-decoration:line-through;color:#b9c3d3}.del{border:0;background:transparent;color:#9ba5b8;font-size:20px;cursor:pointer}
+.addrow{display:flex;gap:8px;margin-top:12px}.addrow input{min-width:0;flex:1;background:var(--p);border:1px solid var(--l);border-radius:12px;padding:12px;color:var(--t)}.note{text-align:center;color:var(--m);font-size:12px;line-height:1.5;margin-top:18px}
+</style></head><body><main class="wrap">
+<header><div class="brand"><div class="logo">G</div><div><h1>Growth Journey</h1><div class="sub">Small steps. Real progress.</div></div></div><button id="install" class="btn" hidden>Install app</button></header>
+<section class="hero"><div class="eyebrow">Your daily reset</div><h2>Become 1% better<br>every day.</h2><p>Show up for the habits that build the person you want to become.</p><div class="stats"><div class="stat"><strong id="count">0/0</strong><span>Completed today</span></div><div class="stat"><strong id="rate">0%</strong><span>Daily progress</span></div><div class="stat"><strong id="streak">0</strong><span>Perfect days</span></div></div></section>
+<div class="head"><h3>Today's habits</h3><span class="muted" id="today"></span></div><section class="progress"><div class="prow"><span>Daily completion</span><strong id="label">0%</strong></div><div class="track"><div class="fill" id="fill"></div></div></section>
+<section id="habits" class="habits"></section><form id="form" class="addrow"><input id="new" maxlength="60" placeholder="Add a new habit…" required><button class="btn primary">+ Add</button></form>
+<div class="note">Your habits are saved in this browser on this device. Keep going, one small step at a time.</div>
+</main>
+<script>
+const defaults=[["water","Drink enough water","Take care of your body"],["move","Exercise or walk","Move for at least 20 minutes"],["learn","Learn something useful","Read, study, or practise"],["focus","Deep work session","One focused session without distractions"],["reflect","Reflect on the day","Write one thing you learned"]];
+let habits=JSON.parse(localStorage.getItem("gj_habits")||"null")||defaults.map(([id,name,hint])=>({id,name,hint}));
+let checks=JSON.parse(localStorage.getItem("gj_checks")||"{}");const key=new Date().toLocaleDateString("en-CA");const $=id=>document.getElementById(id);
+function done(h){return !!(checks[key]&&checks[key][h.id])}
+function save(){localStorage.setItem("gj_habits",JSON.stringify(habits));localStorage.setItem("gj_checks",JSON.stringify(checks))}
+function render(){
+$("today").textContent=new Date().toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
+let n=habits.filter(done).length,p=habits.length?Math.round(n/habits.length*100):0;
+$("count").textContent=n+"/"+habits.length;$("rate").textContent=p+"%";$("label").textContent=p+"%";$("fill").style.width=p+"%";
+let streak=Number(localStorage.getItem("gj_perfect_days")||0);if(p===100&&localStorage.getItem("gj_last_perfect")!==key){streak++;localStorage.setItem("gj_perfect_days",streak);localStorage.setItem("gj_last_perfect",key)}$("streak").textContent=streak;
+$("habits").innerHTML="";habits.forEach(h=>{let row=document.createElement("div");row.className="habit"+(done(h)?" done":"");let c=document.createElement("button");c.className="check";c.setAttribute("aria-label","Toggle "+h.name);c.onclick=()=>{checks[key]=checks[key]||{};checks[key][h.id]=!done(h);save();render()};
+let tx=document.createElement("div");tx.className="habittext";let s=document.createElement("strong");s.textContent=h.name;let sm=document.createElement("small");sm.textContent=h.hint||"Your personal daily habit";tx.append(s,sm);
+let d=document.createElement("button");d.className="del";d.textContent="×";d.onclick=()=>{if(confirm("Delete this habit?")){habits=habits.filter(x=>x.id!==h.id);save();render()}};row.append(c,tx,d);$("habits").append(row)})}
+$("form").onsubmit=e=>{e.preventDefault();let name=$("new").value.trim();if(!name)return;habits.push({id:"h"+Date.now(),name,hint:"Your personal daily habit"});$("new").value="";save();render()};
+if("serviceWorker"in navigator&&location.protocol!=="file:")addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+let promptEvent;addEventListener("beforeinstallprompt",e=>{e.preventDefault();promptEvent=e;$("install").hidden=false});$("install").onclick=async()=>{if(promptEvent){promptEvent.prompt();await promptEvent.userChoice;promptEvent=null;$("install").hidden=true}else alert("Chrome menu ⋮ → Add to Home screen")};
+render();
+</script></body></html>
