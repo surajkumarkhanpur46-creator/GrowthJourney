@@ -1,3 +1,4 @@
+
 name: Build Growth Journey APK
 
 on:
@@ -10,29 +11,42 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+
       - name: Install Android SDK packages
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0" "platform-tools"
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.9"
-      - name: Extract project
-        run: unzip -q GrowthJourney_Project_Files.zip -d extracted
-      - name: Build APK
-        run: gradle -p extracted/GrowthJourneyAndroid assembleDebug
+        run: |
+          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Extract project ZIP
+        run: |
+          unzip -o GrowthJourney_Project_Files.zip -d project
+
+      - name: Find Gradle project
+        run: |
+          find project -name gradlew -type f
+
+      - name: Build debug APK
+        run: |
+          cd "$(dirname "$(find "$GITHUB_WORKSPACE/project" -name gradlew -type f | head -n 1)")"
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Growth-Journey-APK
-          path: extracted/GrowthJourneyAndroid/app/build/outputs/apk/debug/app-debug.apk
+          path: project/**/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+          
