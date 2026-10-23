@@ -27,7 +27,8 @@ jobs:
 
       - name: Install Android SDK packages
         run: |
-          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Extract project ZIP
         run: |
@@ -39,7 +40,9 @@ jobs:
 
       - name: Build debug APK
         run: |
-          cd "$(dirname "$(find "$GITHUB_WORKSPACE/project" -name gradlew -type f | head -n 1)")"
+          GRADLEW=$(find project -name gradlew -type f | head -n 1)
+          test -n "$GRADLEW"
+          cd "$(dirname "$GRADLEW")"
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace
 
