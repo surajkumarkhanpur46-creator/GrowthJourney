@@ -1,40 +1,58 @@
 <!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#10131c"><link rel="manifest" href="manifest.json">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090909">
 <title>Growth Journey</title>
 <style>
-:root{color-scheme:dark;--bg:#0b0d13;--p:#151925;--p2:#20283a;--t:#f4f6fb;--m:#9ba5b8;--a:#b8f36b;--l:#2a3142}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#202b3e,#0b0d13 50%);color:var(--t);font-family:system-ui,sans-serif;min-height:100vh}.wrap{max-width:700px;margin:auto;padding:22px 16px 40px}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{display:flex;gap:11px;align-items:center}.logo{width:42px;height:42px;border-radius:14px;background:var(--a);color:#11170a;display:grid;place-items:center;font-size:22px;font-weight:900}h1{font-size:21px;margin:0}.sub,.muted{font-size:12px;color:var(--m);margin-top:3px}
-button,input{font:inherit}.btn{border:1px solid var(--l);background:var(--p2);color:var(--t);padding:10px 13px;border-radius:12px;cursor:pointer}.primary{background:var(--a);color:#11170a;border-color:var(--a);font-weight:750}
-.hero{background:linear-gradient(135deg,#202a3a,#151925);border:1px solid var(--l);border-radius:22px;padding:21px}.eyebrow{font-size:12px;color:var(--a);font-weight:800;letter-spacing:1.2px;text-transform:uppercase}.hero h2{font-size:29px;line-height:1.15;margin:10px 0}.hero p{color:var(--m);font-size:14px;margin:0 0 18px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#0f131d;border:1px solid var(--l);border-radius:14px;padding:12px}.stat strong{display:block;font-size:22px}.stat span{font-size:11px;color:var(--m)}
-.head{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 12px}.head h3{margin:0;font-size:17px}.progress{background:var(--p);border:1px solid var(--l);border-radius:17px;padding:15px;margin-bottom:12px}.prow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px}.track{height:8px;background:#2b3242;border-radius:99px;overflow:hidden}.fill{height:100%;width:0;background:var(--a);transition:width .2s}
-.habits{display:grid;gap:10px}.habit{display:flex;align-items:center;gap:12px;padding:14px;background:var(--p);border:1px solid var(--l);border-radius:16px}.check{width:26px;height:26px;flex:0 0 26px;border-radius:9px;border:1.5px solid #586176;background:transparent;color:#11170a;cursor:pointer}.done .check{background:var(--a);border-color:var(--a)}.done .check:after{content:"✓";font-weight:900}.habittext{flex:1}.habittext strong{display:block;font-size:14px}.habittext small{display:block;color:var(--m);font-size:12px;margin-top:3px}.done .habittext strong{text-decoration:line-through;color:#b9c3d3}.del{border:0;background:transparent;color:#9ba5b8;font-size:20px;cursor:pointer}
-.addrow{display:flex;gap:8px;margin-top:12px}.addrow input{min-width:0;flex:1;background:var(--p);border:1px solid var(--l);border-radius:12px;padding:12px;color:var(--t)}.note{text-align:center;color:var(--m);font-size:12px;line-height:1.5;margin-top:18px}
-</style></head><body><main class="wrap">
-<header><div class="brand"><div class="logo">G</div><div><h1>Growth Journey</h1><div class="sub">Small steps. Real progress.</div></div></div><button id="install" class="btn" hidden>Install app</button></header>
-<section class="hero"><div class="eyebrow">Your daily reset</div><h2>Become 1% better<br>every day.</h2><p>Show up for the habits that build the person you want to become.</p><div class="stats"><div class="stat"><strong id="count">0/0</strong><span>Completed today</span></div><div class="stat"><strong id="rate">0%</strong><span>Daily progress</span></div><div class="stat"><strong id="streak">0</strong><span>Perfect days</span></div></div></section>
-<div class="head"><h3>Today's habits</h3><span class="muted" id="today"></span></div><section class="progress"><div class="prow"><span>Daily completion</span><strong id="label">0%</strong></div><div class="track"><div class="fill" id="fill"></div></div></section>
-<section id="habits" class="habits"></section><form id="form" class="addrow"><input id="new" maxlength="60" placeholder="Add a new habit…" required><button class="btn primary">+ Add</button></form>
-<div class="note">Your habits are saved in this browser on this device. Keep going, one small step at a time.</div>
+:root{--bg:#090909;--card:#141414;--card2:#1b1a17;--gold:#d6b56d;--gold2:#f5df9b;--muted:#a8a39a;--line:#383124;--white:#f8f5ed}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#211b10 0,#090909 48%);color:var(--white);font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.wrap{max-width:760px;margin:auto;padding:22px 16px 42px}
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}.brand{display:flex;gap:11px;align-items:center}.logo{width:43px;height:43px;border:1px solid var(--gold);border-radius:14px;display:grid;place-items:center;color:var(--gold2);font-weight:900;font-size:20px;background:linear-gradient(145deg,#272116,#0c0c0c)}.brandname{font-weight:800;letter-spacing:1.7px;font-size:15px}.subbrand{font-size:10px;color:var(--gold);letter-spacing:2.2px;margin-top:3px}.date{font-size:12px;color:var(--muted);text-align:right}
+.hero{border:1px solid #5b4828;border-radius:26px;padding:25px 21px;background:linear-gradient(145deg,rgba(45,36,21,.95),rgba(17,17,17,.98) 68%);box-shadow:0 15px 45px #0008}.eyebrow{font-size:10px;letter-spacing:2.8px;color:var(--gold);text-transform:uppercase}.hero h1{font-size:clamp(31px,8vw,47px);line-height:1.08;letter-spacing:-1.5px;margin:12px 0}.hero h1 span{color:var(--gold2)}.hero p{color:#c0b9aa;line-height:1.5;margin:0 0 22px;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.stat{border:1px solid #51442d;border-radius:16px;background:#0c0c0ccc;padding:14px 11px}.num{font-size:25px;font-weight:800;color:var(--gold2)}.label{font-size:11px;color:var(--muted);margin-top:4px}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;margin:27px 2px 13px}.sectionhead h2{font-size:18px;margin:0}.sectionhead small{color:var(--muted);font-size:12px}
+.panel{background:var(--card);border:1px solid #302a20;border-radius:20px;padding:16px;margin-bottom:12px}.week{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:14px}.day{background:#0d0d0d;border:1px solid #343027;border-radius:12px;text-align:center;padding:10px 2px;font-size:11px;color:var(--muted)}.day b{display:block;color:#eee7d8;font-size:13px;margin-top:6px}.day.today{border-color:var(--gold);color:var(--gold)}.day.done{background:#4a3a1d;border-color:var(--gold);color:var(--gold2)}
+.progressrow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px}.track{height:8px;background:#302c24;border-radius:20px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#a47d35,#f2d68d);border-radius:20px;transition:width .2s}
+.habit{display:flex;align-items:center;gap:12px;padding:14px;background:linear-gradient(110deg,#191919,#111);border:1px solid #332d23;border-radius:17px;margin-bottom:9px}.check{width:26px;height:26px;flex:none;accent-color:var(--gold);width:24px;height:24px}.habittext{flex:1;min-width:0}.habittitle{font-size:14px;font-weight:700}.hint{font-size:12px;color:var(--muted);margin-top:3px}.delete{border:0;background:transparent;color:#a79a7c;font-size:21px;padding:3px 7px}
+.addrow{display:flex;gap:8px;margin-top:12px}.addrow input{flex:1;min-width:0;background:#101010;border:1px solid #4a3b25;color:var(--white);border-radius:13px;padding:13px;font-size:14px}.btn{border:1px solid #e0c47f;background:linear-gradient(135deg,#f0d58f,#b68b3e);color:#17120a;font-weight:800;border-radius:13px;padding:12px 15px;font-size:14px}.quote{font-family:Georgia,serif;font-size:19px;line-height:1.45;color:#f1dfb2}.quote small{display:block;font-family:system-ui,sans-serif;font-size:10px;letter-spacing:2px;color:var(--muted);margin-top:13px}.foot{text-align:center;color:#81796b;font-size:11px;margin-top:25px;line-height:1.6}
+@media(min-width:620px){.hero{padding:32px}.panel{padding:19px}.habit{padding:16px}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div class="brand"><div class="logo">GJ</div><div><div class="brandname">GROWTH JOURNEY</div><div class="subbrand">DISCIPLINE • DAILY</div></div></div><div class="date" id="todayDate"></div></header>
+<section class="hero"><div class="eyebrow">Your personal growth system</div><h1>Become better.<br><span>Every single day.</span></h1><p>Small promises kept daily become a life you’re proud of. Focus on progress, not perfection.</p><div class="stats"><div class="stat"><div class="num" id="completed">0/5</div><div class="label">Habits complete</div></div><div class="stat"><div class="num" id="percent">0%</div><div class="label">Today’s progress</div></div><div class="stat"><div class="num" id="streak">0</div><div class="label">Day streak 🔥</div></div></div></section>
+<div class="sectionhead"><h2>Weekly progress</h2><small id="weekLabel">One week at a time</small></div>
+<section class="panel"><div class="progressrow"><span>This week’s consistency</span><strong id="weekPercent">0%</strong></div><div class="track"><div class="fill" id="weekFill"></div></div><div class="week" id="week"></div></section>
+<div class="sectionhead"><h2>Today’s habits</h2><small id="todayShort"></small></div>
+<section class="panel"><div class="progressrow"><span>Daily completion</span><strong id="dailyLabel">0%</strong></div><div class="track"><div class="fill" id="dailyFill"></div></div></section>
+<section id="habits"></section>
+<div class="addrow"><input id="newHabit" maxlength="60" placeholder="Add a custom habit…"><button class="btn" id="addBtn">+ Add</button></div>
+<div class="sectionhead"><h2>A thought to carry</h2><small>DAILY REMINDER</small></div><section class="panel"><div class="quote" id="quote"></div></section>
+<div class="foot">YOUR JOURNEY. YOUR PACE.<br>Progress is built one honest day at a time.</div>
 </main>
 <script>
-const defaults=[["water","Drink enough water","Take care of your body"],["move","Exercise or walk","Move for at least 20 minutes"],["learn","Learn something useful","Read, study, or practise"],["focus","Deep work session","One focused session without distractions"],["reflect","Reflect on the day","Write one thing you learned"]];
-let habits=JSON.parse(localStorage.getItem("gj_habits")||"null")||defaults.map(([id,name,hint])=>({id,name,hint}));
-let checks=JSON.parse(localStorage.getItem("gj_checks")||"{}");const key=new Date().toLocaleDateString("en-CA");const $=id=>document.getElementById(id);
-function done(h){return !!(checks[key]&&checks[key][h.id])}
-function save(){localStorage.setItem("gj_habits",JSON.stringify(habits));localStorage.setItem("gj_checks",JSON.stringify(checks))}
+const defaults=[{id:'water',title:'Drink enough water',hint:'Take care of your body'},{id:'move',title:'Exercise or walk',hint:'Move for at least 20 minutes'},{id:'learn',title:'Learn something useful',hint:'Read, study, or practise'},{id:'focus',title:'Deep work session',hint:'One focused session without distractions'},{id:'reflect',title:'Reflect on the day',hint:'Write one thing you learned'}];
+const quotes=['“We are what we repeatedly do. Excellence, then, is not an act, but a habit.”','“A little progress each day adds up to big results.”','“Discipline is choosing what you want most over what you want now.”','“You do not have to be perfect. You have to keep showing up.”','“The secret of getting ahead is getting started.”','“Your future is created by what you do today, not tomorrow.”','“Small steps every day.”'];
+const todayKey=()=>new Date().toISOString().slice(0,10);
+let habits;try{habits=JSON.parse(localStorage.getItem('gj_lux_habits'))||defaults}catch(e){habits=defaults}
+let checks;try{checks=JSON.parse(localStorage.getItem('gj_lux_checks'))||{}}catch(e){checks={}}
+function save(){localStorage.setItem('gj_lux_habits',JSON.stringify(habits));localStorage.setItem('gj_lux_checks',JSON.stringify(checks))}
+function keyFor(d){return d.toISOString().slice(0,10)}
+function isDone(date,id){return !!(checks[date]&&checks[date][id])}
+function dayScore(date){if(!habits.length)return 0;return habits.filter(h=>isDone(date,h.id)).length/habits.length}
 function render(){
-$("today").textContent=new Date().toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
-let n=habits.filter(done).length,p=habits.length?Math.round(n/habits.length*100):0;
-$("count").textContent=n+"/"+habits.length;$("rate").textContent=p+"%";$("label").textContent=p+"%";$("fill").style.width=p+"%";
-let streak=Number(localStorage.getItem("gj_perfect_days")||0);if(p===100&&localStorage.getItem("gj_last_perfect")!==key){streak++;localStorage.setItem("gj_perfect_days",streak);localStorage.setItem("gj_last_perfect",key)}$("streak").textContent=streak;
-$("habits").innerHTML="";habits.forEach(h=>{let row=document.createElement("div");row.className="habit"+(done(h)?" done":"");let c=document.createElement("button");c.className="check";c.setAttribute("aria-label","Toggle "+h.name);c.onclick=()=>{checks[key]=checks[key]||{};checks[key][h.id]=!done(h);save();render()};
-let tx=document.createElement("div");tx.className="habittext";let s=document.createElement("strong");s.textContent=h.name;let sm=document.createElement("small");sm.textContent=h.hint||"Your personal daily habit";tx.append(s,sm);
-let d=document.createElement("button");d.className="del";d.textContent="×";d.onclick=()=>{if(confirm("Delete this habit?")){habits=habits.filter(x=>x.id!==h.id);save();render()}};row.append(c,tx,d);$("habits").append(row)})}
-$("form").onsubmit=e=>{e.preventDefault();let name=$("new").value.trim();if(!name)return;habits.push({id:"h"+Date.now(),name,hint:"Your personal daily habit"});$("new").value="";save();render()};
-if("serviceWorker"in navigator&&location.protocol!=="file:")addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
-let promptEvent;addEventListener("beforeinstallprompt",e=>{e.preventDefault();promptEvent=e;$("install").hidden=false});$("install").onclick=async()=>{if(promptEvent){promptEvent.prompt();await promptEvent.userChoice;promptEvent=null;$("install").hidden=true}else alert("Chrome menu ⋮ → Add to Home screen")};
-render();
+ const now=new Date(),key=keyFor(now);document.getElementById('todayDate').textContent=now.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'});document.getElementById('todayShort').textContent=now.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+ const done=habits.filter(h=>isDone(key,h.id)).length,pct=habits.length?Math.round(done/habits.length*100):0;
+ document.getElementById('completed').textContent=done+'/'+habits.length;document.getElementById('percent').textContent=pct+'%';document.getElementById('dailyLabel').textContent=pct+'%';document.getElementById('dailyFill').style.width=pct+'%';
+ let streak=0,d=new Date(now);while(dayScore(keyFor(d))===1&&habits.length){streak++;d.setDate(d.getDate()-1);if(streak>366)break}document.getElementById('streak').textContent=streak;
+ const week=document.getElementById('week');week.innerHTML='';let total=0;const start=new Date(now);start.setDate(now.getDate()-((now.getDay()+6)%7));
+ for(let i=0;i<7;i++){let d=new Date(start);d.setDate(start.getDate()+i);let k=keyFor(d),score=dayScore(k);total+=score;let el=document.createElement('div');el.className='day'+(k===key?' today':'')+(score===1&&habits.length?' done':'');el.innerHTML=d.toLocaleDateString(undefined,{weekday:'short'}).slice(0,2)+'<b>'+d.getDate()+'</b>';week.appendChild(el)}
+ let wp=Math.round(total/7*100);document.getElementById('weekPercent').textContent=wp+'%';document.getElementById('weekFill').style.width=wp+'%';
+ const list=document.getElementById('habits');list.innerHTML='';habits.forEach(h=>{let row=document.createElement('div');row.className='habit';let cb=document.createElement('input');cb.type='checkbox';cb.className='check';cb.checked=isDone(key,h.id);cb.setAttribute('aria-label','Complete '+h.title);cb.addEventListener('change',()=>{checks[key]=checks[key]||{};checks[key][h.id]=cb.checked;save();render()});let tx=document.createElement('div');tx.className='habittext';let title=document.createElement('div');title.className='habittitle';title.textContent=h.title;let hint=document.createElement('div');hint.className='hint';hint.textContent=h.hint||'Your personal habit';tx.append(title,hint);let del=document.createElement('button');del.className='delete';del.textContent='×';del.setAttribute('aria-label','Delete '+h.title);del.addEventListener('click',()=>{if(confirm('Delete this habit?')){habits=habits.filter(x=>x.id!==h.id);save();render()}});row.append(cb,tx,del);list.appendChild(row)});
+ document.getElementById('quote').textContent=quotes[Math.floor(now.getTime()/86400000)%quotes.length];
+}
+function addHabit(){let input=document.getElementById('newHabit'),title=input.value.trim();if(!title)return;habits.push({id:'custom_'+Date.now(),title,hint:'A promise you make to yourself'});input.value='';save();render()}
+document.getElementById('addBtn').addEventListener('click',addHabit);document.getElementById('newHabit').addEventListener('keydown',e=>{if(e.key==='Enter')addHabit()});render();
 </script></body></html>
